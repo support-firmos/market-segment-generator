@@ -15,11 +15,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid segments data' }, { status: 400 });
     }
     
-    // Updated prompt to match the PDF style and your requirements
     const prompt = `
     You are a market research expert specializing in high-ticket fractional CFO services. Below is a list of promising segments in the ${industry} industry:
     
-    ${segments.substring(0, 5000)} // Limit input size to avoid request issues
+    ${segments.substring(0, 5000)}
     
     Provide an enhanced analysis in English only, starting with the title "Deep Dive: Best ${industry} Segments for High-Ticket Fractional CFO Services". Do not include introductory sentences like "Okay, here's an analysis...". For each segment, use the following format with numbered headings:
     
@@ -40,15 +39,14 @@ export async function POST(request: Request) {
         'X-Title': 'B2B Segment Finder',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-001', // Using a smaller model
+        model: 'google/gemini-2.0-flash-001',
         messages: [{ role: 'user', content: prompt }],
         stream: false,
-        max_tokens: 5000, // Adjust if needed
+        max_tokens: 5000,
         temperature: 0.7,
       }),
     });
     
-    // Get response details for better debugging
     const responseText = await response.text();
     
     if (!response.ok) {
@@ -59,24 +57,17 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
     
-    try {
-      const data = JSON.parse(responseText);
-      if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-        return NextResponse.json({ 
-          error: 'Invalid response format from OpenRouter',
-          details: responseText 
-        }, { status: 500 });
-      }
-      
+    const data = JSON.parse(responseText);
+    if (!data.choices?.[0]?.message) {
       return NextResponse.json({ 
-        result: data.choices[0].message.content 
-      });
-    } catch (parseError) {
-      return NextResponse.json({ 
-        error: 'Error parsing API response',
-        details: responseText
+        error: 'Invalid response format from OpenRouter',
+        details: responseText 
       }, { status: 500 });
     }
+      
+    return NextResponse.json({ 
+      result: data.choices[0].message.content 
+    });
   } catch (error) {
     console.error('Error enhancing segments:', error);
     return NextResponse.json({ 
