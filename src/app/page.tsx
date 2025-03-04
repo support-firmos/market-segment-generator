@@ -11,7 +11,10 @@ interface FormData {
 
 export default function Home() {
   const [generatedResearch, setGeneratedResearch] = useState<string | null>(null);
+  const [enhancedResearch, setEnhancedResearch] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isEnhancing, setIsEnhancing] = useState(false);
+  const [currentIndustry, setCurrentIndustry] = useState<string>("");
   const [progressStatus, setProgressStatus] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
 
@@ -19,7 +22,9 @@ export default function Home() {
     setError(null);
     setIsGenerating(true);
     setGeneratedResearch('');
+    setEnhancedResearch(null);
     setProgressStatus('Identifying target segments...');
+    setCurrentIndustry(formData.industry);
 
     try {
       // First prompt: Get initial target segments
@@ -41,39 +46,8 @@ export default function Home() {
       
       const initialSegments = initialData.result;
       
-      // Display interim results
+      // Display initial results
       setGeneratedResearch(initialSegments);
-      setProgressStatus('Enhancing segment documentation...');
-
-      // We'll try the second API call, but if it fails, we'll still have the initial results
-      try {
-        // Second prompt: Get enhanced documentation for each segment
-        const enhancedResponse = await fetch('/api/enhance-segments', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            industry: formData.industry,
-            segments: initialSegments 
-          }),
-        });
-
-        if (!enhancedResponse.ok) {
-          throw new Error(`Failed to enhance segments: ${enhancedResponse.status}`);
-        }
-
-        const enhancedData = await enhancedResponse.json();
-        
-        if (enhancedData.result) {
-          setGeneratedResearch(enhancedData.result);
-        } else {
-          // Keep the initial results if enhancement fails
-          setError('Could not enhance the segments, but showing initial results.');
-        }
-      } catch (enhanceError) {
-        console.error('Error enhancing segments:', enhanceError);
-        setError('Could not enhance the segments further, but initial results are available.');
-        // We keep the initial results
-      }
       
     } catch (error) {
       console.error('Error generating research:', error);
@@ -85,18 +59,58 @@ export default function Home() {
     }
   };
 
+  const enhanceSegments = async (segments: string, industry: string) => {
+    setError(null);
+    setIsEnhancing(true);
+    
+    try {
+      const enhancedResponse = await fetch('/api/enhance-segments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          industry,
+          segments
+        }),
+      });
+
+      if (!enhancedResponse.ok) {
+        throw new Error(`Failed to enhance segments: ${enhancedResponse.status}`);
+      }
+
+      const enhancedData = await enhancedResponse.json();
+      
+      if (enhancedData.result) {
+        setGeneratedResearch(null); // Hide the original research
+        setEnhancedResearch(enhancedData.result); // Show enhanced research
+      } else {
+        setError('Could not enhance the segments. Please try again.');
+      }
+    } catch (enhanceError) {
+      console.error('Error enhancing segments:', enhanceError);
+      setError('Could not enhance the segments. Please try again.');
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
+
   const resetGenerator = () => {
     setGeneratedResearch(null);
+    setEnhancedResearch(null);
     setError(null);
+    setCurrentIndustry("");
   };
+
+  // Determine which content to show
+  const displayContent = enhancedResearch || generatedResearch;
+  const isResultEnhanced = !!enhancedResearch;
 
   return (
     <div className="py-10 px-4 container mx-auto">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#f7f8f8]">Market Segment Research</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-[#f7f8f8]">Market Segment Researcher</h1>
           <p className="text-[#8a8f98]">
-            Find ideal Market Research segments for Fractional CFO services
+            Find ideal Market Segments for Fractional CFO services
           </p>
         </div>
         
@@ -107,8 +121,15 @@ export default function Home() {
         )}
         
         <div className="card">
-          {generatedResearch ? (
-            <ResearchResult content={generatedResearch} onReset={resetGenerator} />
+          {displayContent ? (
+            <ResearchResult 
+              content={displayContent} 
+              industry={currentIndustry}
+              onReset={resetGenerator}
+              onEnhance={!isResultEnhanced ? enhanceSegments : undefined}
+              isEnhanced={isResultEnhanced}
+              isEnhancing={isEnhancing}
+            />
           ) : (
             <ResearchForm onSubmit={generateResearch} />
           )}
@@ -117,7 +138,7 @@ export default function Home() {
         {isGenerating && (
           <div className="text-center mt-4">
             <p className="text-[#8a8f98]">
-              {progressStatus}
+              {progressStatus || 'Generating segments...'}
             </p>
           </div>
         )}
