@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     
     ${segments.substring(0, 5000)}
     
-    Provide an enhanced analysis in English only, starting with the title "Deep Dive: Best ${industry} Segments for High-Ticket Fractional CFO Services". Do not include introductory sentences like "Okay, here's an analysis...". For each segment, use the following format with numbered headings:
+    Provide an enhanced analysis in English only, starting with the title "Deep Dive: Best ${industry} Segments for High-Ticket Fractional CFO Services". Adjust the capitalization of the title if needed. Do not include introductory sentences like "Okay, here's an analysis...". For each segment, use the following format with numbered headings:
     
     A. **Why This Segment?** - Explain in 2-3 sentences why this segment needs fractional CFO services (e.g., complex financial needs, growth demands).
     B. **High-Ticket Justification** - List 3-4 specific financial challenges or tasks in bullet points that justify premium CFO services (e.g., financial modeling, investor reporting).
