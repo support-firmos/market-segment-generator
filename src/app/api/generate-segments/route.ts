@@ -35,7 +35,7 @@ Example:
    - Estimated Market US Potential: 600 companies, $10M–$45M revenue
    - Ease of Outreach: Medium
 
-Provide only the numbered list without markdown or additional explanations. Arrange them from Highest to Lowest Profit.`;
+Provide only the numbered list without markdown or additional explanations. Arrange them from Highest to Lowest Profiting Segments for Fractional CFO Services.`;
     
     // Use non-streaming approach for this first prompt
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
