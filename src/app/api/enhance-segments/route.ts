@@ -22,10 +22,10 @@ export async function POST(request: Request) {
     
     Provide an enhanced analysis in English only, starting with the title "Deep Dive: Best ${industry} Segments for High-Ticket Fractional CFO Services". Adjust the capitalization of the title if needed. Do not include introductory sentences like "Okay, here's an analysis...". For each segment, use the following format with numbered headings:
     
-    A. **Why This Segment?** - Explain in 2-3 sentences why this segment needs fractional CFO services (e.g., complex financial needs, growth demands).
-    B. **High-Ticket Justification** - List 3-4 specific financial challenges or tasks in bullet points that justify premium CFO services (e.g., financial modeling, investor reporting).
+    A. **Why This Segment?** - Explain in 3 sentences why this segment needs fractional CFO services (e.g., complex financial needs, growth demands).
+    B. **High-Ticket Justification** - List 4 specific financial challenges or tasks in bullet points that justify premium CFO services (e.g., financial modeling, investor reporting).
     C. **How Lucrative Is This Market?** - Assess market size, growth trends, or profitability potential in 2-3 sentences.
-    D. **Marketing Angles** - Provide 2-3 compelling marketing messages in bullet points tailored to this segment’s needs.
+    D. **Marketing Angles** - Provide 3 compelling marketing messages in bullet points tailored to this segment’s needs.
     
     Keep each section concise and actionable. Structure the response with the title followed by segment headings (e.g., "1. Real Estate Development Firms") and numbered subsections.
     `;
