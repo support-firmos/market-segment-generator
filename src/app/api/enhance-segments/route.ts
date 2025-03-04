@@ -35,8 +35,8 @@ export async function POST(request: Request) {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://segment-finder.vercel.app',
-        'X-Title': 'B2B Segment Finder',
+        'HTTP-Referer': process.env.NEXT_PUBLIC_SITE_URL || 'https://market-segment-generator.vercel.app/',
+        'X-Title': 'Market Segment Research',
       },
       body: JSON.stringify({
         model: 'google/gemini-2.0-flash-001',
