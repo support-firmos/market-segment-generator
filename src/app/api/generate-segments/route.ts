@@ -17,7 +17,7 @@ You are a Product Market Fit expert specializing in Go-To-Market Engineering, Re
 
 Task
 Determine 7 ${industry} industry segments that would be the best fit for high-ticket, recurring CFO services. These must meet:
-1. Financial Viability: $5M–$50M annual revenue (can afford $15K–$30K/month retainers)
+1. Financial Viability: $5M–$150M annual revenue (can afford $15K–$30K/month retainers)
 2. Recurring Need Justification: Requires ongoing financial strategy, not one-time services
 3. Accessibility: CEOs/CFOs reachable via LinkedIn/email/phone
 4. Service Fit: Needs budgeting, cash flow management, KPI tracking, or financial advisory

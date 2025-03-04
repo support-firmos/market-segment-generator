@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     const prompt = `
     You are a market research expert specializing in high-ticket fractional CFO services. Below is a list of promising segments in the ${industry} industry:
     
-    ${segments.substring(0, 5000)}
+    ${segments.substring(0, 20000)}
     
     Provide an enhanced analysis in English only, starting with the title "Deep Dive: Best ${industry} Segments for High-Ticket Fractional CFO Services". Adjust the capitalization of the title if needed. Do not include introductory sentences like "Okay, here's an analysis...". For each segment, use the following format with numbered headings:
     
