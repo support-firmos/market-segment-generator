@@ -51,7 +51,7 @@ Provide only the numbered list without markdown or additional explanations. Arra
         messages: [{ role: 'user', content: prompt }],
         stream: false,
         max_tokens: 5000,
-        temperature: 0.6,
+        temperature: 0.8,
       }),
     });
     
